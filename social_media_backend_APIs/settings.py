@@ -103,6 +103,10 @@ INSTALLED_APPS = [
 
     # My apps:
     'social_media_backend_APIs.users',
+
+    # Other:
+    'rest_framework',  # For APIs
+    'rest_framework.authtoken',  # For API authentication
 ]
 
 DATABASES = {
