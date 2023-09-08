@@ -121,3 +121,8 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'users.SocialMediaUser'
+
+
+# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Session won't expire when the user closes the browser
+# SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # session will expire after 1 week
