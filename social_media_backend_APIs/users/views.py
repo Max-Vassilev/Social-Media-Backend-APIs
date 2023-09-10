@@ -21,6 +21,7 @@ class UserDataSerializer(serializers.ModelSerializer):
         model = SocialMediaUser
         fields = ["name", "profile_picture"]
 
+
 class RegisterUserViewAPI(APIView):
     def post(self, request):
         serializer = UserRegisterSerializer(data=request.data)
@@ -71,3 +72,14 @@ class DataUserViewAPI(api_views.ListAPIView):
     def get_queryset(self):
         queryset = SocialMediaUser.objects.filter(pk=self.request.user.pk)
         return queryset
+
+
+class DeleteUserViewAPI(APIView):
+    def delete(self, request):
+        user = request.user
+
+        if user:
+            user.delete()
+            return Response({"message": "User deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({"message": "User not found."}, status=status.HTTP_404_NOT_FOUND)
