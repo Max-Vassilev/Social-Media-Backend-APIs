@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.shortcuts import render
 from rest_framework import serializers, status
 from rest_framework.response import Response
@@ -51,3 +51,12 @@ class LoginUserViewAPI(APIView):
         else:
             login(request, user)
             return Response({"message": "Login successful."})
+
+
+class LogoutUserViewAPI(APIView):
+    def post(self, request):
+        if request.user.is_authenticated:
+            logout(request)
+            return Response({"message": "Logout successful."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "User is not logged in."}, status=status.HTTP_401_UNAUTHORIZED)
