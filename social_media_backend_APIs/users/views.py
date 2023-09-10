@@ -16,6 +16,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         fields = ["username", "email", "password"]
 
 
+class UserEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialMediaUser
+        fields = ["username", "email", "password"]
+
+
 class UserDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialMediaUser
@@ -83,3 +89,12 @@ class DeleteUserViewAPI(APIView):
             return Response({"message": "User deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({"message": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+class EditUserViewAPI(api_views.UpdateAPIView):
+    serializer_class = UserEditSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        # Return the authenticated user
+        return self.request.user

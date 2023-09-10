@@ -9,5 +9,6 @@ urlpatterns = [
     path('data/', DataUserViewAPI.as_view(), name='user data API'),
 
     path('delete/', DeleteUserViewAPI.as_view(), name='user delete API'),
+    path('edit/', EditUserViewAPI.as_view(), name='user edit API'),
 
 ]
