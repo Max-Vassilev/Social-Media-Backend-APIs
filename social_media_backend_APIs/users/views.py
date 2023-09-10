@@ -1,11 +1,13 @@
 from django.contrib.auth import login, logout
 from django.shortcuts import render
 from rest_framework import serializers, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from social_media_backend_APIs.users.models import SocialMediaUser
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
+from rest_framework import generics as api_views
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -14,11 +16,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         fields = ["username", "email", "password"]
 
 
-# class UserLoginSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = SocialMediaUser
-#         fields = ["email", "password"]
-
+class UserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialMediaUser
+        fields = ["name", "profile_picture"]
 
 class RegisterUserViewAPI(APIView):
     def post(self, request):
@@ -60,3 +61,13 @@ class LogoutUserViewAPI(APIView):
             return Response({"message": "Logout successful."}, status=status.HTTP_200_OK)
         else:
             return Response({"message": "User is not logged in."}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class DataUserViewAPI(api_views.ListAPIView):
+    serializer_class = UserDataSerializer
+    permission_classes = [IsAuthenticated]
+
+    # So it returns only the authenticated user:
+    def get_queryset(self):
+        queryset = SocialMediaUser.objects.filter(pk=self.request.user.pk)
+        return queryset
