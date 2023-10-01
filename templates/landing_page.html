@@ -2,11 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Landing Page</title>
 </head>
 <body>
+    <h1>Welcome to the Landing Page</h1>
 
-<h1>Hello from the landing page !</h1>
+    <h3>Logged user: {{ request.user.username }}</h3>
 
+    <ul>
+        <li><a href="{% url 'resister API' %}">Register</a></li>
+        <li><a href="{% url 'login API' %}">Login</a></li>
+        <li><a href="{% url 'logout API' %}">Logout</a></li>
+        <li><a href="{% url 'user data API' %}">User Data</a></li>
+        <li><a href="{% url 'user delete API' %}">User Delete</a></li>
+        <li><a href="{% url 'user edit API' %}">User Edit</a></li>
+
+        <li><a href="{% url 'all posts API' %}">User Edit</a></li>
+        <li><a href="{% url 'create post API' %}">User Edit</a></li>
+{#        <li><a href="{% url 'delete post API' %}">User Edit</a></li>#}
+
+    </ul>
 </body>
 </html>
