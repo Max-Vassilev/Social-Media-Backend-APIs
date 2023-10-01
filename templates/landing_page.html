@@ -5,22 +5,25 @@
     <title>Landing Page</title>
 </head>
 <body>
-    <h1>Welcome to the Landing Page</h1>
+<h1>Welcome to the Landing Page</h1>
 
-    <h3>Logged user: {{ request.user.username }}</h3>
+<h3>Logged user: {{ request.user.username }}</h3>
 
-    <ul>
+<ul>
+    {% if not request.user.is_authenticated %}
         <li><a href="{% url 'resister API' %}">Register</a></li>
         <li><a href="{% url 'login API' %}">Login</a></li>
+
+    {% else %}
         <li><a href="{% url 'logout API' %}">Logout</a></li>
         <li><a href="{% url 'user data API' %}">User Data</a></li>
         <li><a href="{% url 'user delete API' %}">User Delete</a></li>
         <li><a href="{% url 'user edit API' %}">User Edit</a></li>
 
-        <li><a href="{% url 'all posts API' %}">User Edit</a></li>
-        <li><a href="{% url 'create post API' %}">User Edit</a></li>
-{#        <li><a href="{% url 'delete post API' %}">User Edit</a></li>#}
+        <li><a href="{% url 'all posts API' %}">All posts </a></li>
+        <li><a href="{% url 'create post API' %}">Create post</a></li>
+    {% endif %}
 
-    </ul>
+</ul>
 </body>
 </html>
