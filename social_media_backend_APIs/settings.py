@@ -104,6 +104,7 @@ INSTALLED_APPS = [
     # My apps:
     'social_media_backend_APIs.users',
     'social_media_backend_APIs.feed',
+    'social_media_backend_APIs.main',
 
     # Other:
     'rest_framework',  # For APIs
