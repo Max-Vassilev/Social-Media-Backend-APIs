@@ -19,6 +19,12 @@ class CreatePostSerializer(serializers.ModelSerializer):
         fields = ["content"]
 
 
+class EditPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ["content"]
+
+
 class DeletePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
@@ -56,4 +62,23 @@ class DeletePostViewAPI(api_views.UpdateAPIView):
         if instance:
             instance.delete()
             return Response({"message": "Post was hard deleted successfully."})
+
+
+class EditPostViewAPI(api_views.UpdateAPIView):
+    serializer_class = EditPostSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Post.objects.filter(pk=pk, author=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        if instance:
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Post was updated successfully."})
+
 
