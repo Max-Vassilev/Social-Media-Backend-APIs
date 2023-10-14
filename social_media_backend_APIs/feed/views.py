@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics as api_views, serializers
+from social_media_backend_APIs.feed.models import Like
 
 from social_media_backend_APIs.feed.models import Post
 
@@ -28,6 +29,12 @@ class EditPostSerializer(serializers.ModelSerializer):
 class DeletePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
+        fields = []
+
+
+class LikePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
         fields = []
 
 
@@ -82,3 +89,14 @@ class EditPostViewAPI(api_views.UpdateAPIView):
                 return Response({"message": "Post was updated successfully."})
 
 
+class LikePostViewAPI(api_views.CreateAPIView):
+    serializer_class = LikePostSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        post = Post.objects.filter(id=self.kwargs['pk']).first()
+        user = self.request.user
+
+        # Works only if the user hasn't liked the post yet:
+        if not Like.objects.filter(user=user, to_post=post).exists():
+            serializer.save(user=self.request.user, to_post=post)

@@ -14,3 +14,14 @@ class Post(models.Model):
             return f"Post: {self.content}"
         else:
             return f"Post: {self.content[0: 15]}..."
+
+
+class Like(models.Model):
+    to_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+
+    def __str__(self):
+        if len(self.to_post.content) < 20:
+            return f"Like for post: {self.to_post} By: {self.user}"
+        else:
+            return f"Like for: {self.to_post.content[0: 15]}..."
